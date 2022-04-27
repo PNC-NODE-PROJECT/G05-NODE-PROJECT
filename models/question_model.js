@@ -28,21 +28,9 @@ const questionsSchema = new mongoose.Schema({
     }
 });
 
-const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-});
-
 // Create the Model for the Tasks collection from Schema
 const questionsModel = mongoose.model("questions",questionsSchema);
-const usersModel = mongoose.model("users",userSchema);
+
 
 // export model 
 module.exports.questionsModel = questionsModel; 
-module.exports.usersModel = usersModel; 
