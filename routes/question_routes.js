@@ -15,4 +15,15 @@ router.post("/",(req, res) => {
     }); 
 });
 
+// delete data from mongo DB
+router.delete("/:id",(req, res) => {
+    questionsModel.deleteOne({_id:req.params.id})
+    .then(result => {
+        res.send(result);
+    })
+    .catch((error)=>{
+        res.send(error);
+    });
+});
+
 module.exports = router;
