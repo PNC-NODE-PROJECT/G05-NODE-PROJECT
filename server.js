@@ -14,9 +14,13 @@ app.listen(3000, () => {
 app.use(express.static("public"));
 
 // require module
-const router = require("./routes/question_routes");
+const question_router = require("./routes/question_routes");
+const user_router = require("./routes/user_routes");
 // get data from mongo DB
-app.use('/add_questions',router);
-app.use('/delete_questions',router);
-app.use('/questions',router);
+app.use('/add_questions',question_router);
+app.use('/delete_questions',question_router);
+app.use('/questions',question_router);
+app.use('/questions',question_router);
+
+app.use('/login',user_router)
 
