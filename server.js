@@ -18,4 +18,5 @@ const router = require("./routes/question_routes");
 // get data from mongo DB
 app.use('/add_questions',router);
 app.use('/delete_questions',router);
+app.use('/questions',router);
 

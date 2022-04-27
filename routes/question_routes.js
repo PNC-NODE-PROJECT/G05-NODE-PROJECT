@@ -26,4 +26,15 @@ router.delete("/:id",(req, res) => {
     });
 });
 
+// get list of question from database
+router.get('/',(req,res)=>{
+    questionsModel.find()
+    .then((result) => {
+        res.send(result);
+    })
+    .catch(error => {
+        res.send(error);
+    });
+});
+
 module.exports = router;
