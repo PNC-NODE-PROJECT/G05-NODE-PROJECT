@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
+// requier .env file
+require("dotenv").config();
+
 // connect to DB
-mongoose.connect('mongodb://localhost:27017/quizz-app',{useUnifiedTopology:true});
+mongoose.connect('mongodb://localhost:27017/'+process.env.DB_NAME,{useUnifiedTopology:true});
 
 const questionsSchema = new mongoose.Schema({
     title:String,

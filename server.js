@@ -3,11 +3,14 @@ const cors = require("cors");
 const app = express();
 app.use(cors()); // To allow any origin
 
+// requier .env file
+require("dotenv").config();
+
 app.use(express.json()); // To read json data in request body
 app.use(express.urlencoded({extended: true}));
 
-app.listen(3000, () => {
-  console.log("App run on http://localhost:3000");
+app.listen( process.env.PORT, () => {
+  console.log("App run on http://localhost:"+ process.env.PORT);
 });
 
 // use file 
