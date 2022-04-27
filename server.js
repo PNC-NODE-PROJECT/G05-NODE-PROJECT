@@ -3,8 +3,8 @@ const cors = require("cors");
 const app = express();
 app.use(cors()); // To allow any origin
 
+app.use(express.urlencoded({ extended: true })); // let body know json formath
 app.use(express.json()); // To read json data in request body
-app.use(express.urlencoded()); // let body know json formath
 
 app.listen(3000, () => {
   console.log("App run on http://localhost:3000");

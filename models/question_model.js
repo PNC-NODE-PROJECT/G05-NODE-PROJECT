@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // connect to DB
-mongoose.connect('mongodb://localhost:27017/quizz-app',{useUnifiedTopology:true});
+mongoose.connect('mongodb://127.0.0.1:27017/quizz-app',{useUnifiedTopology:true});
 
 const questionsSchema = new mongoose.Schema({
     title:String,
@@ -41,5 +41,4 @@ const questionsModel = mongoose.model("questions",questionsSchema);
 const usersModel = mongoose.model("users",userSchema);
 
 // export model 
-module.exports.questionsModel = questionsModel; 
-module.exports.usersModel = usersModel; 
+module.exports = {questionsModel,usersModel}; 

@@ -2,12 +2,13 @@ const express = require('express')
 const router = express.Router();
 
 // import question model
-const questionsModel = require("../models/question_model").questionsModel;
+const myModel = require("../models/question_model");
+const questionsModel = myModel.questionsModel;
 
-router.get('/',(res,req)=>{
+router.get('/',(req,res)=>{
     questionsModel.find()
     .then((result) => {
-        res.send(result);
+        res.send(result)
     })
 });
 
