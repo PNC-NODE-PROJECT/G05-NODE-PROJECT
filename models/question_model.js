@@ -17,6 +17,5 @@ const questionsSchema = new mongoose.Schema({
 // Create the Model for the Tasks collection from Schema
 const questionsModel = mongoose.model("questions",questionsSchema);
 
-
 // export model 
 module.exports.questionsModel = questionsModel; 

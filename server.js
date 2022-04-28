@@ -20,12 +20,11 @@ app.listen(process.env.PORT, () => {
 app.use(express.static("public"));
 
 // require module
-const question_router = require("./routes/question_routes");
-const user_router = require("./routes/user_routes");
+const questionRouter = require("./routes/question_routes");
+const userRouter = require("./routes/user_routes");
 
 // question routes
-app.use('/questions',question_router);
+app.use('/questions',questionRouter);
 
 // user routes
-app.use('/login',user_router);
-
+app.use('/login',userRouter);
