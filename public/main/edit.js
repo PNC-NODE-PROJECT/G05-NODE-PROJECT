@@ -2,6 +2,7 @@
 // require("dotenv").config();
 function displayAllQuestions(){
     hide(addForm);
+    hide(updateQuestion);
     show(editHeader);
     show(quizContainer);
     while(quizContainer.firstChild){
@@ -64,9 +65,10 @@ function show(element){
     element.style.display = "block";
 }
 
-function addQuestion(){
+function showForm(){
     hide(editHeader);
     hide(quizContainer);
+    hide(updateQuestion);
     show(addForm);
 }
 
@@ -109,11 +111,16 @@ function editQuestions(e){
                 displayAllQuestions();
             })
         }
-    } else if (e.target.className === "edit") {
+    } else if (e.target.id === "edit"){
         // TODO: Request to the server to update one task as completed
-        axios.put(query+"update/"+id).then((response)=>{
-        getTasks();
-        console.log("update success");
+
+        axios.put(query+id).then((response)=>{
+            // showForm();
+            hide(editHeader);
+            hide(quizContainer);
+            show(updateQuestion);
+            console.log(response);
+            // console.log("update success");
         });
     
     }
@@ -127,7 +134,8 @@ let editHeader = document.querySelector(".editHeader");
 let create = document.querySelector(".create");
 let questionTitle = document.querySelector("#title");
 let answerAll = document.querySelectorAll(".choice")
-addQuestions.addEventListener("click",addQuestion);
+let updateQuestion = document.querySelector(".update")
+addQuestions.addEventListener("click",showForm);
 create.addEventListener("click",createQuestion);
 quizContainer.addEventListener("click",editQuestions);
 // getQuestions();
