@@ -12,7 +12,8 @@ function displayAllQuestions(){
         let questions = response.data;
         questions.forEach(question => {
             let questionContainer = document.createElement("div");
-            questionContainer.className="card w-100 m-3 p-3"
+            questionContainer.className="card w-100 m-3 p-3";
+            questionContainer.id = question._id;
             let title = document.createElement("span");
             // console.log(question.title);
             title.className = "font-weight-bold";
@@ -41,12 +42,13 @@ function displayAllQuestions(){
             editMaterial.className="d-flex justify-content-end"
             let editBtn = document.createElement("button");
             editBtn.textContent="Edit"
-            editBtn.className = "btn btn-primary mr-3 edit"
+            editBtn.className = "btn btn-primary mr-3";
+            editBtn.id = "edit";
             editMaterial.appendChild(editBtn);
             let deleteBtn = document.createElement("button");
             deleteBtn.textContent="Delete"
-            deleteBtn.id = question._id;
-            deleteBtn.className = "btn btn-danger delete";
+            deleteBtn.className = "btn btn-danger";
+            deleteBtn.id = "delete"
             editMaterial.appendChild(deleteBtn);
             questionContainer.appendChild(answerContainer);
             questionContainer.appendChild(editMaterial);
@@ -91,6 +93,31 @@ function createQuestion(e){
     questionTitle.value="";
 }
 
+function editQuestions(e){
+    e.preventDefault();
+    let query = "http://localhost:3000/questions/"
+    let id = e.target.parentNode.parentNode.id;
+    console.log(id);
+    console.log(e.target.id)
+    if (e.target.id === "delete") {
+        // console.log(e.target.parentNode.id);
+        let isExecuted = confirm("Are you sure to delete this task?");
+        if (isExecuted) {
+        // TODO: Request to the server to detele one task
+            axios.delete(query+id).then((response)=>{
+                console.log("delete success");
+                displayAllQuestions();
+            })
+        }
+    } else if (e.target.className === "edit") {
+        // TODO: Request to the server to update one task as completed
+        axios.put(query+"update/"+id).then((response)=>{
+        getTasks();
+        console.log("update success");
+        });
+    
+    }
+}
 
 
 let quizContainer = document.querySelector(".questionView");
@@ -102,5 +129,6 @@ let questionTitle = document.querySelector("#title");
 let answerAll = document.querySelectorAll(".choice")
 addQuestions.addEventListener("click",addQuestion);
 create.addEventListener("click",createQuestion);
+quizContainer.addEventListener("click",editQuestions);
 // getQuestions();
 displayAllQuestions();
