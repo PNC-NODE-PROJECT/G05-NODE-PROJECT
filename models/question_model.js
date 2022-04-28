@@ -8,24 +8,9 @@ mongoose.connect('mongodb://localhost:27017/'+process.env.DB_NAME,{useUnifiedTop
 
 const questionsSchema = new mongoose.Schema({
     title:String,
-    answers: {
-        answer1: {
-            value:String, 
-            status:Boolean
-        },
-        answer2: {
-            value:String, 
-            status:Boolean
-        },
-        answer3: {
-            value:String, 
-            status:Boolean
-        },
-        answer4: {
-            value:String, 
-            status:Boolean
-        }
-    }
+    answers: [
+        {"value":String,"status":Boolean}
+    ]
 });
 
 // Create the Model for the Tasks collection from Schema
