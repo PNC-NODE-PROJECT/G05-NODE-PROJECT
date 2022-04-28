@@ -2,7 +2,7 @@
 // require("dotenv").config();
 function displayAllQuestions(){
     hide(addForm);
-    hide(updateQuestion);
+    hide(updateForm);
     show(editHeader);
     show(quizContainer);
     while(quizContainer.firstChild){
@@ -68,7 +68,7 @@ function show(element){
 function showForm(){
     hide(editHeader);
     hide(quizContainer);
-    hide(updateQuestion);
+    hide(updateForm);
     show(addForm);
 }
 
@@ -94,11 +94,11 @@ function createQuestion(e){
     displayAllQuestions();
     questionTitle.value="";
 }
-
+let id ;
 function editQuestions(e){
     e.preventDefault();
     let query = "http://localhost:3000/questions/"
-    let id = e.target.parentNode.parentNode.id;
+    id = e.target.parentNode.parentNode.id;
     console.log(id);
     console.log(e.target.id)
     if (e.target.id === "delete") {
@@ -113,28 +113,70 @@ function editQuestions(e){
         }
     } else if (e.target.id === "edit"){
         // TODO: Request to the server to update one task as completed
-
-        axios.put(query+id).then((response)=>{
             // showForm();
-            hide(editHeader);
-            hide(quizContainer);
-            show(updateQuestion);
-            console.log(response);
-            // console.log("update success");
+        hide(editHeader);
+        hide(quizContainer);
+        show(updateForm);
+        axios.get(query+id).then((response)=>{
+            let question = response.data[0];
+            questionTitleEdit.value = question.title;
+            console.log(questionTitleEdit.value);
+            let answer = question.answers;
+            let array=[];
+            for(let i=0; i<answerAllEdit.length;i++){
+                let object = {};
+                answerAllEdit[i].value = answer[i].value;
+                object.value = answerAllEdit[i].value;
+                let radio = answerAllEdit[i].previousElementSibling.firstElementChild.firstElementChild;
+                if(answer[i].status){
+                    radio.checked=true;
+                }
+                object.status = answer[i].status;
+                array.push(object);
+            }
+            console.log(array)
+            console.log(answerAllEdit);
         });
-    
+            // console.log("update success");
     }
 }
-
+function update(e){
+    let query = "http://localhost:3000/questions/";
+    questionTitle = questionTitleEdit.value;
+    let choices = [];
+    answerAllEdit.forEach(answer=> {
+        let object = {};
+        object.value = answer.value;
+        let radio = answer.previousElementSibling.firstElementChild.firstElementChild;
+        console.log(radio);
+        if(radio.checked){
+            object.status = true;
+        }
+        console.log(object);
+        choices.push(object);
+        answer.value = "";
+        radio.checked = false;
+    });
+    axios.put(query+id,{title:questionTitle,answers:choices}).then((response)=>{
+        console.log("Update Success");
+    });
+    displayAllQuestions();
+    questionTitleEdit.value="";
+}
 
 let quizContainer = document.querySelector(".questionView");
 let addQuestions = document.querySelector(".addQuestions");
 let addForm = document.querySelector(".add");
 let editHeader = document.querySelector(".editHeader");
 let create = document.querySelector(".create");
-let questionTitle = document.querySelector("#title");
-let answerAll = document.querySelectorAll(".choice")
-let updateQuestion = document.querySelector(".update")
+let questionTitle = document.querySelector(".title");
+let questionTitleEdit = document.querySelector("#title");
+let answerAll = document.querySelectorAll(".choice");
+let answerAllEdit = document.querySelectorAll(".choiceEdit");
+
+let updateForm = document.querySelector(".update");
+let updateQuestion = document.querySelector(".edit");
+updateQuestion.addEventListener("click",update)
 addQuestions.addEventListener("click",showForm);
 create.addEventListener("click",createQuestion);
 quizContainer.addEventListener("click",editQuestions);
