@@ -9,13 +9,17 @@ mongoose.connect('mongodb://localhost:27017/'+process.env.DB_NAME,{useUnifiedTop
 const questionsSchema = new mongoose.Schema({
     title:String,
     answers: [
-        {"value":String,"status":Boolean}
+        {"value":String,
+        "status":{
+            type:Boolean,
+            default:false
+            }
+        }
     ]
 });
 
 // Create the Model for the Tasks collection from Schema
 const questionsModel = mongoose.model("questions",questionsSchema);
-
 
 // export model 
 module.exports.questionsModel = questionsModel; 
