@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 // connect to DB
-mongoose.connect('mongodb://localhost:27017/'+process.env.DB_NAME,{useUnifiedTopology:true});
+mongoose.connect(process.env.DB_CONNECTION,{useUnifiedTopology:true});
 
 const userSchema = new mongoose.Schema({
     username: {

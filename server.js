@@ -9,8 +9,11 @@ require("dotenv").config();
 app.use(express.json()); // To read json data in request body
 app.use(express.urlencoded({extended: true}));
 
-app.listen( process.env.PORT, () => {
-  console.log("App run on http://localhost:"+ process.env.PORT);
+
+require("dotenv").config();
+
+app.listen(process.env.PORT, () => {
+  console.log("App run on http://localhost:"+process.env.PORT);
 });
 
 // use file 
