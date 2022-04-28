@@ -38,4 +38,16 @@ router.get('/',(req,res)=>{
     });
 });
 
+// edit questions
+router.put("/:id",(req, res) => {
+    questionsModel.updateOne({_id:req.params.id},req.body)
+    .then(result => {
+        res.send(result);
+    })
+    .catch((error)=>{
+        res.send(error);
+    });
+});
+
+// export router
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 
-const usersModel = require("../models/question_model").usersModel;
+const usersModel = require("../models/user_model").usersModel;
 
 router.post("/",(req, res) => {
     let userData = req.body;

@@ -1,3 +1,5 @@
+// require("dotenv").config();
+
 function hide(element){
     element.style.display="none";
 }
