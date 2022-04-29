@@ -77,6 +77,7 @@ function createQuestion(e){
     let URL = "http://localhost:3000/questions";
     let questionText = questionTitle.value;
     let choices = [];
+    let selected = 0;
     answerAll.forEach(answer=> {
         let object = {};
         object.value = answer.value;
@@ -84,16 +85,50 @@ function createQuestion(e){
         console.log(radio);
         if(radio.checked){
             object.status = true;
+            selected+=1;
         }
         console.log(object);
         choices.push(object);
         answer.value = "";
         radio.checked = false;
     });
-    axios.post(URL,{title:questionText,answers:choices})
-    displayAllQuestions();
+    if(questionText == ""){
+        alert("Question cannot be empty!!!")
+    }else if(!checkValidationAnswers(choices)){
+        alert("Answer choices cannot be blank!!!")
+    }else if(selected!=1){
+        alert("You need to choose the correct answer!!")
+    }else if(!checkDuplicatedAnswers(choices)){
+        alert("Answer choices cannot be the same!!!")
+    }else{
+        axios.post(URL,{title:questionText,answers:choices})
+        displayAllQuestions();
+    }
     questionTitle.value="";
 }
+
+function checkValidationAnswers(array){
+    console.log(array);
+    let blank = true;
+    array.forEach(element => {
+        if(element.value == ""){
+            blank = false;
+        }
+    });
+    return blank;
+}
+
+function checkDuplicatedAnswers(array){
+    for(let i = 0;i<array.length;i++){
+        for(let j=0;j<array.length;j++){
+            if(i!=j && array[i].value == array[j].value){
+                return false
+            }
+        }
+    }
+    return true
+}
+
 let id ;
 function editQuestions(e){
     e.preventDefault();
@@ -103,15 +138,27 @@ function editQuestions(e){
     console.log(e.target.id)
     if (e.target.id === "delete") {
         // console.log(e.target.parentNode.id);
-        let isExecuted = confirm("Are you sure to delete this task?");
-        if (isExecuted) {
-        // TODO: Request to the server to detele one task
-            axios.delete(query+id).then((response)=>{
-                console.log("delete success");
-                displayAllQuestions();
-            })
-        }
-    } else if (e.target.id === "edit"){
+        // swal({
+        //     title: "Are you sure?",
+        //     text: "Do you really want to delete this photo?",
+        //     icon: "warning",
+        //     buttons: true,
+        //     dangerMode: true,
+        // })
+        // .then((willDelete) => {
+        //     if (willDelete) {
+        //       swal("Your image has been deleted successfully!!", {
+        //         icon: "success",
+        //       });
+              axios.delete(query+id).then((response)=>{
+                  console.log("delete success");
+                  displayAllQuestions();
+              })
+        //     } else {
+        //       swal("Nothing deleted!");
+        //     }
+        // });
+    }else if (e.target.id === "edit"){
         // TODO: Request to the server to update one task as completed
             // showForm();
         hide(editHeader);
@@ -134,8 +181,6 @@ function editQuestions(e){
                 object.status = answer[i].status;
                 array.push(object);
             }
-            console.log(array)
-            console.log(answerAllEdit);
         });
             // console.log("update success");
     }
@@ -157,11 +202,21 @@ function update(e){
         answer.value = "";
         radio.checked = false;
     });
+    // if(questionTitle == ""){
+    //     alert("Question cannot be empty!!!")
+    // }else if(!checkValidationAnswers(choices)){
+    //     alert("Answer choices cannot be blank!!!")
+    // }else if(selected!=1){
+    //     alert("You need to choose the correct answer!!")
+    // }else if(!checkDuplicatedAnswers(choices)){
+    //     alert("Answer choices cannot be the same!!!")
+    // }else{
     axios.put(query+id,{title:questionTitle,answers:choices}).then((response)=>{
         console.log("Update Success");
     });
     displayAllQuestions();
     questionTitleEdit.value="";
+    // }
 }
 
 let quizContainer = document.querySelector(".questionView");
