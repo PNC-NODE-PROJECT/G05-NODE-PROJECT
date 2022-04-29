@@ -5,9 +5,9 @@ function displayAllQuestions(){
     hide(updateForm);
     show(editHeader);
     show(quizContainer);
-    while(quizContainer.firstChild){
+    while(quizContainer.firstChild){    
         quizContainer.removeChild(quizContainer.lastChild);
-      }
+    }
     let URL = "http://localhost:3000/questions";
     axios.get(URL).then((response)=>{
         let questions = response.data;
