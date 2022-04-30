@@ -123,8 +123,8 @@ function showResult(numQuestions){
     }
     let buttonBack = document.createElement("a");
     buttonBack.className = "btn btn-primary mt-4 mb-4";
-    buttonBack.textContent = "Back to Login";
-    buttonBack.href = "../../index.html";
+    buttonBack.textContent = "Back to Menu";
+    buttonBack.href = "../menu/menu.html";
     resultDiv.appendChild(scoreContent);
     resultDiv.appendChild(comment);
     resultDiv.appendChild(buttonBack);
