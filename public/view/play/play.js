@@ -88,18 +88,10 @@ function displayAllQuestions() {
         }
     });
 };
-function computeScore(){
-    if(correct){
-        score +=1;
-    }
-    console.log(score);
-    correct = false;
-}
-
 function showResult(numQuestions){
-    // axios.get(usersURL).then((response)=>{
-        //     console.log(response.data);
-        // });
+    axios.get(usersURL).then((response)=>{
+        console.log(response.data);
+    });
     const scorePerCent = Math.round((100 * score) / numQuestions);
     let resultDiv = document.createElement("div");
     resultDiv.className = "resultDiv";
