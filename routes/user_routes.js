@@ -15,4 +15,14 @@ router.post("/",(req, res) => {
     });
 });
 
+router.get("/",(req,res)=>{
+    usersModel.find()
+    .then((result)=>{
+        res.send(result)
+    })
+    .catch(error => {
+        res.send(error);
+    });
+})
+
 module.exports = router;
