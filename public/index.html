@@ -12,11 +12,12 @@
     <nav class="navbar navbar-dark bg-dark d-flex justify-content-center">
         <span class="navbar-brand mb-0 h1 fw-bold">Quiz App G-05</span>
     </nav>
+    <!-- login form -->
     <section class="vh-90 pageLogin">
         <div class="container py-5 h-100">
-          <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="row d-flex align-items-center justify-content-center h-100">
             <div class="col-md-8 col-lg-7 col-xl-6">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
                 class="img-fluid" alt="Phone image">
             </div>
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 login">
@@ -37,35 +38,38 @@
                         <!-- Submit button -->
                         <button type="submit" class="btn btn-primary btn-l btn-block" id="login">Login</button>
                     </div>
+                    <div class="d-flex justify-content-around align-items-center mb-4">
+                        <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="index.html" class="fw-bold text-body" id="register">Register</a></p> 
+                    </div>
                 </form>
             </div>
         </div>
     </section>
-    <div class="m-auto w-50 menu">
-        <div class="row w-100 mt-5">
-            <div class="col-sm-6">
-            <div class="card d-flex justify-content-around align-items-center">
-                <div class="card-body">
-                    <h2 class="card-title">Test Your Knowledge</h2>
-                    <img src="images/quiz.jpg" class="w-100 mb-4">
-                    <div class="d-flex justify-content-around align-items-center m-auto w-50">
-                        <a href="view/play/play.html" class="btn btn-primary w-100 fw-bold">Play</a>
-                    </div>
+
+    <!-- register form -->
+    <section class="vh-80 pageRegister">
+        <div class="row col-12 d-flex justify-content-center align-items-center h-100 mt-5">
+            <div class="card col-4" style="border-radius: 15px;">
+                <div class="card-body p-5">
+                    <h3 class="text-uppercase text-center mb-3">Create an account</h3>
+                    <form>
+                        <div class="form-outline mb-2">
+                            <input type="text" id="username" class="form-control form-control-lg" />
+                            <label class="form-label" for="username">Your Name</label>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <input type="password" id="password" class="form-control form-control-lg" />
+                            <label class="form-label" for="password">Password</label>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary btn-l btn-block" id="submit">Register</button>
+                        </div>
+                        <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="index.html" class="fw-bold text-body">Login here</a></p>
+                    </form>
                 </div>
             </div>
-            </div>
-            <div class="col-sm-6">
-            <div class="card d-flex justify-content-around align-items-center">
-                <div class="card-body">
-                    <h2 class="card-title">Want to Change Something?</h2>
-                    <img src="images/edit.jpg" class="w-100 mb-4">
-                    <div class="d-flex justify-content-around align-items-center m-auto w-50">
-                        <a href="view/edit/edit.html" class="btn btn-primary w-100 fw-bold">Edit</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="main/main.js"></script>
+        </div>  
+    </section>
 </body>
+    <script src="js/main.js"></script>
 </html>

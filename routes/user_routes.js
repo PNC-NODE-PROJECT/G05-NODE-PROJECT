@@ -4,7 +4,7 @@ const router = express.Router();
 const usersModel = require("../models/user_model").usersModel;
 
 // login
-router.post("/",(req, res) => {
+router.post("/login",(req, res) => {
     let userData = req.body;
     let isValid = false;
     usersModel.find(userData)
@@ -16,12 +16,15 @@ router.post("/",(req, res) => {
     });
 });
 
-// get user info
-router.get('/user',(req,res)=>{
-    usersModel.find()
-    .then((result)=> {
+// create new user account
+router.post("/register",(req, res) => {
+    usersModel.create(req.body)
+    .then(result => {
         res.send(result);
     })
-})
+    .catch((error)=>{
+        console.log(error);
+    }); 
+});
 
 module.exports = router;

@@ -27,4 +27,4 @@ const userRouter = require("./routes/user_routes");
 app.use('/questions',questionRouter);
 
 // user routes
-app.use('/login',userRouter);
+app.use('/user',userRouter);
