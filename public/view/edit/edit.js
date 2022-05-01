@@ -68,6 +68,7 @@ function showForm(){
     hide(quizContainer);
     hide(updateForm);
     show(addForm);
+    hide(document.querySelector(".btnBack"));
 }
 
 function createQuestion(e){
@@ -130,6 +131,7 @@ function checkDuplicatedAnswers(array){
 let id ;
 function editQuestions(e){
     e.preventDefault();
+    hide(document.querySelector(".btnBack"));
     let query = "http://localhost:3000/questions/"
     id = e.target.parentNode.parentNode.id;
     console.log(id);
