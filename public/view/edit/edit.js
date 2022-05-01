@@ -1,5 +1,3 @@
-
-// require("dotenv").config();
 function displayAllQuestions(){
     hide(addForm);
     hide(updateForm);
