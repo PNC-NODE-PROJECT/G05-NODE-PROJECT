@@ -2,7 +2,8 @@ function displayAllQuestions(){
     hide(addForm);
     hide(updateForm);
     show(editHeader);
-    show(quizContainer);
+    show(quizContainer);    
+    document.querySelector("body").style.backgroundColor = "#ddd"
     while(quizContainer.firstChild){    
         quizContainer.removeChild(quizContainer.lastChild);
     }
@@ -11,7 +12,7 @@ function displayAllQuestions(){
         let questions = response.data;
         questions.forEach(question => {
             let questionContainer = document.createElement("div");
-            questionContainer.className="card w-100 m-3 p-3";
+            questionContainer.className="card w-100 m-3 p-3 shadow p-3 mb-2 bg-white rounded";
             questionContainer.id = question._id;
             let title = document.createElement("span");
             // console.log(question.title);
@@ -53,7 +54,8 @@ function displayAllQuestions(){
             questionContainer.appendChild(editMaterial);
             quizContainer.appendChild(questionContainer);
         });
-    })
+        show(document.querySelector(".btnBack"));
+    });
 }
 function hide(element){
     element.style.display = "none";
@@ -91,6 +93,7 @@ function createQuestion(e){
         answer.value = "";
         radio.checked = false;
     });
+    show(document.querySelector(".btnBack"));
     if(questionText == ""){
         alert("Question cannot be empty!!!")
     }else if(!checkValidationAnswers(choices)){
@@ -137,27 +140,25 @@ function editQuestions(e){
     console.log(id);
     console.log(e.target.id)
     if (e.target.id === "delete") {
-        // console.log(e.target.parentNode.id);
-        // swal({
-        //     title: "Are you sure?",
-        //     text: "Do you really want to delete this photo?",
-        //     icon: "warning",
-        //     buttons: true,
-        //     dangerMode: true,
-        // })
-        // .then((willDelete) => {
-        //     if (willDelete) {
-        //       swal("Your image has been deleted successfully!!", {
-        //         icon: "success",
-        //       });
-              axios.delete(query+id).then((response)=>{
-                  console.log("delete success");
-                  displayAllQuestions();
-              })
-        //     } else {
-        //       swal("Nothing deleted!");
-        //     }
-        // });
+        Swal.fire({
+            title: 'Are you sure want to delete?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(query+id).then((response)=>{
+                    console.log("delete success");
+                    displayAllQuestions();
+                });
+                Swal.fire(
+                    'Deleted!',
+                    )
+            }
+            show(document.querySelector(".btnBack"));
+        });
     }else if (e.target.id === "edit"){
         // TODO: Request to the server to update one task as completed
             // showForm();
@@ -182,8 +183,10 @@ function editQuestions(e){
                 array.push(object);
             }
         });
-            // console.log("update success");
+    } else {
+        show(document.querySelector(".btnBack"));
     }
+
 }
 function update(e){
     let query = "http://localhost:3000/questions/";
@@ -202,21 +205,21 @@ function update(e){
         answer.value = "";
         radio.checked = false;
     });
-    // if(questionTitle == ""){
-    //     alert("Question cannot be empty!!!")
-    // }else if(!checkValidationAnswers(choices)){
-    //     alert("Answer choices cannot be blank!!!")
-    // }else if(selected!=1){
-    //     alert("You need to choose the correct answer!!")
-    // }else if(!checkDuplicatedAnswers(choices)){
-    //     alert("Answer choices cannot be the same!!!")
-    // }else{
+    if(questionTitle == ""){
+        alert("Question cannot be empty!!!")
+    }else if(!checkValidationAnswers(choices)){
+        alert("Answer choices cannot be blank!!!")
+    }else if(selected!=1){
+        alert("You need to choose the correct answer!!")
+    }else if(!checkDuplicatedAnswers(choices)){
+        alert("Answer choices cannot be the same!!!")
+    }else{
     axios.put(query+id,{title:questionTitle,answers:choices}).then((response)=>{
         console.log("Update Success");
     });
     displayAllQuestions();
     questionTitleEdit.value="";
-    // }
+    }
 }
 
 let quizContainer = document.querySelector(".questionView");

@@ -45,7 +45,7 @@ function registerAccount(e){
         axios.post(query,{username:userName, password:userPassword,email:userEmail}).then((response)=>{
             console.log(response);
             if(response.data){
-                hide(loginPage);
+                hide(registerPage);
                 location.href = "../../index.html";
                 console.log("register success");
             }else{
