@@ -1,3 +1,6 @@
+if(!sessionStorage.userId){
+    location.href = "../../index.html"
+}
 function displayAllQuestions(){
     hide(addForm);
     hide(updateForm);
@@ -95,15 +98,38 @@ function createQuestion(e){
     });
     show(document.querySelector(".btnBack"));
     if(questionText == ""){
-        alert("Question cannot be empty!!!")
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Question cannot be empty!!!',
+        })
     }else if(!checkValidationAnswers(choices)){
-        alert("Answer choices cannot be blank!!!")
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Answer choices cannot be blank!!!',
+        })
     }else if(selected!=1){
-        alert("You need to choose the correct answer!!")
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'You need to choose the correct answer!!',
+        })
     }else if(!checkDuplicatedAnswers(choices)){
-        alert("Answer choices cannot be the same!!!")
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Answer choices cannot be the same!!!",
+        })
     }else{
         axios.post(URL,{title:questionText,answers:choices})
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Question created successfully',
+            showConfirmButton: false,
+            timer: 1500
+          })
         displayAllQuestions();
     }
     questionTitle.value="";
@@ -160,8 +186,6 @@ function editQuestions(e){
             show(document.querySelector(".btnBack"));
         });
     }else if (e.target.id === "edit"){
-        // TODO: Request to the server to update one task as completed
-            // showForm();
         hide(editHeader);
         hide(quizContainer);
         show(updateForm);

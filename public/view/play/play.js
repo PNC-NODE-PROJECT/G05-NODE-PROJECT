@@ -1,3 +1,6 @@
+if(!sessionStorage.userId){
+    location.href = "../../index.html"
+}
 
 const URL = "http://localhost:3000/questions";
 const usersURL = "http://localhost:3000/login";
