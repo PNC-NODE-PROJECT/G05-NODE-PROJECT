@@ -1,3 +1,6 @@
+if(!sessionStorage.userId){
+    location.href = "../../index.html"
+}
 function displayAllQuestions(){
     hide(addForm);
     hide(updateForm);
@@ -54,6 +57,7 @@ function displayAllQuestions(){
             quizContainer.appendChild(questionContainer);
         });
     })
+
 }
 function hide(element){
     element.style.display = "none";
@@ -159,8 +163,6 @@ function editQuestions(e){
         //     }
         // });
     }else if (e.target.id === "edit"){
-        // TODO: Request to the server to update one task as completed
-            // showForm();
         hide(editHeader);
         hide(quizContainer);
         show(updateForm);

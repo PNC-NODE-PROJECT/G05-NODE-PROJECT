@@ -1,5 +1,4 @@
 // require("dotenv").config();
-
 function hide(element){
     element.style.display="none";
 }
@@ -18,7 +17,8 @@ function loginToPlay(e){
         console.log(response);
         if(response.data){
             hide(loginPage);
-            location.href = "view/menu/menu.html";
+            sessionStorage.setItem("userId",response.data._id);
+            location.href = "../view/menu/menu.html";
             console.log("login success");
         }else{
             let error = document.createElement("span");
@@ -45,16 +45,18 @@ function registerAccount(e){
         axios.post(query,{username:userName, password:userPassword,email:userEmail}).then((response)=>{
             console.log(response);
             if(response.data){
-                hide(loginPage);
-                location.href = "../../index.html";
+                // show(loginPage);
+                // sessionStorage.setItem("userId",response.data._id);
+                location.href = "../index.html";
                 console.log("register success");
             }else{
                 let error = document.createElement("span");
                 error.textContent="error";
                 error.className = "text-danger error";
                 log.appendChild(error);
-                username.value="";
-                password.value="";
+                registerName.value = "";
+                registerPassword.value = "";
+                registerEmail.value ="";
             }
         })
     } else {
