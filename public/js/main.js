@@ -60,7 +60,10 @@ function registerAccount(e){
             }
         })
     } else {
-        alert("You must fill all requirement")
+        Swal.fire({
+            icon: 'error',
+            title: "You must fill all requirement",
+          })
     }
 }
 
