@@ -40,28 +40,99 @@ function registerAccount(e){
     if(document.querySelector(".error")){
         document.querySelector(".error").remove();
     }
-    if (userPassword != "" && userEmail != "" && userName != ""){
-        let query = "http://localhost:3000/user/register";
-        axios.post(query,{username:userName, password:userPassword,email:userEmail}).then((response)=>{
-            console.log(response);
-            if(response.data){
-                // show(loginPage);
-                // sessionStorage.setItem("userId",response.data._id);
-                location.href = "../index.html";
-                console.log("register success");
+    if (checkUsername(userName) && checkPassword(userPassword) && checkEmail(userEmail)){
+        let query = "http://localhost:3000/user";
+        axios.get(query).then((response)=>{
+            let checkEmail = false;
+            let allData = response.data;
+            // console.log(allData);
+            for(let i=0; i< allData.length;i++){
+                console.log(allData[i])
+                if(allData[i].email == registerEmail.value){
+                    checkEmail = true;
+                    console.log(checkEmail)
+                }
+            }
+            console.log(checkEmail);
+            if(!checkEmail){
+                let query = "http://localhost:3000/user/register";
+                axios.post(query,{username:userName, password:userPassword,email:userEmail})
+                .then((response)=>{
+                    console.log(response);
+                    if(response.data){
+                        location.href = "../index.html";
+                        console.log("register success");
+                    }
+                })
+                .catch((error)=>{
+                    res.send(error);
+                })
             }else{
-                let error = document.createElement("span");
-                error.textContent="error";
-                error.className = "text-danger error";
-                log.appendChild(error);
-                registerName.value = "";
-                registerPassword.value = "";
-                registerEmail.value ="";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'The email had already been used!!!',
+                })
+                passwordNameCheck.textContent = null;
+                userNameCheck.textContent = null;
+                emailNameCheck.textContent = null;
             }
         })
-    } else {
-        alert("You must fill all requirement")
+        // console.log(checkEmail)
+
+
+        // }else{
+        //     let error = document.createElement("span");
+        //     error.textContent="Password need to be between 8 and 15 characters long!!";
+        //     error.className = "text-danger error";
+        //     log.appendChild(error);
+        //     registerName.value = "";
+        //     registerPassword.value = "";
+        //     registerEmail.value ="";
+        // }
+    }else{
+        if(!checkPassword(userPassword)){
+            passwordNameCheck.textContent = "Password should be between 8 and 15 characters!!"
+        }else{
+            passwordNameCheck.textContent = null;
+        }
+        if(!checkUsername(userName)){
+            userNameCheck.textContent = "Username can't be longer than 30 characters!!"
+        }else{
+            userNameCheck.textContent = null;
+        }
+        if(!checkEmail(userEmail)){
+            emailNameCheck.textContent = "Email must contain an @ sign"
+        }else{
+            emailNameCheck.textContent = null;
+        }
+    //     alert("You must fill all requirement")
     }
+}
+
+function checkPassword(password){
+    let valid = false;
+    if(password.length > 8 && password.length < 15){
+        valid = true;
+    }
+    return valid;
+}
+
+function checkUsername(username){
+    let valid = false;
+    if(username.length < 30 && username.length>0){
+        valid = true;
+    }
+    return valid;
+}
+
+function checkEmail(email){
+    let valid = false;
+    for(let i = 0; i<email.length;i++){
+        if(email.slice(i,i+1)=="@"){
+            valid = true
+        }
+    }
+    return valid;
 }
 
 let login=document.getElementById("login");
@@ -74,6 +145,10 @@ let registerPassword = document.getElementById("password");
 let registerEmail = document.querySelector("#email");
 let register = document.querySelector("#register");
 let registerPage = document.querySelector(".pageRegister");
+let userNameCheck = document.querySelector(".userNameCheck");
+let emailNameCheck = document.querySelector(".emailNameCheck");
+let passwordNameCheck = document.querySelector(".passwordNameCheck");
+
 
 // hide register page
 hide(registerPage);

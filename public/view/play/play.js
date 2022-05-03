@@ -1,3 +1,4 @@
+// Check if you have log in already
 if(!sessionStorage.userId){
     location.href = "../../index.html"
 }
@@ -13,6 +14,7 @@ function show(element){
     element.style.display = "block";
 };
 let questionLength=0
+// Display all questions one by one 
 function displayAllQuestions() {
     // hide(result);
     while(playQuiz.firstChild){    
@@ -76,10 +78,6 @@ function displayAllQuestions() {
                 hide(result);
             } else {
                 hide(card);
-                // if(resultDiv){
-                //     resultDiv.remove();
-                // }
-                // hide(result);
             }
             const choices = document.querySelectorAll(".choice");
             choiceAnswer(choices,btn[i]);
@@ -91,6 +89,7 @@ function displayAllQuestions() {
         }
     });
 };
+// Show the score of the player @param numQuestions is the length of the questions
 function showResult(numQuestions){
     axios.get(usersURL).then((response)=>{
         console.log(response.data);
@@ -99,7 +98,6 @@ function showResult(numQuestions){
     let resultDiv = document.createElement("div");
     resultDiv.className = "resultDiv";
     let scoreContent = document.createElement("h1");
-    // scoreContent.className = "text-success";
     console.log(scorePerCent);
     scoreContent.textContent = scorePerCent+" %";
     let comment = document.createElement("h4");
@@ -137,7 +135,6 @@ function showResult(numQuestions){
 // choice answer parameter choice is the DOM parameter btn is the btn next
 let correct = false;
 function choiceAnswer(choices,btn) {
-// console.log(questionLength)
     for (let n = 0; n < choices.length; n++) {
         let isClick = false;
         choices[n].addEventListener("click",()=>{
@@ -153,6 +150,7 @@ function choiceAnswer(choices,btn) {
             }
             for(let i=0;i<choices.length;i++){
                 if(i!=n){
+
                     choices[i].disabled = true;
                 }
             }
@@ -166,8 +164,7 @@ function choiceAnswer(choices,btn) {
     console.log(score);
     correct = false;
 }
-
-
+// Index increment and call back the display function
 function incress() {
     currentQuestionIndex ++;
     displayAllQuestions(); 

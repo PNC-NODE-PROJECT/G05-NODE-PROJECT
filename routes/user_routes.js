@@ -15,6 +15,18 @@ router.post("/login",(req, res) => {
       res.send(isValid);
     });
 });
+// get all the users
+router.get("/",(req,res)=>{
+    // let mail = req.body;
+    // let isCorrect = true;
+    usersModel.find()
+    .then((result)=>{
+        res.send(result);
+    })
+    .catch((error)=>{
+        console.log(error);
+    });
+})
 
 // create new user account
 router.post("/register",(req, res) => {

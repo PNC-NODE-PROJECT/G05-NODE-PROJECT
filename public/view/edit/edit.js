@@ -1,6 +1,8 @@
+// Check if you have log in already
 if(!sessionStorage.userId){
     location.href = "../../index.html"
 }
+// Display all the questions 
 function displayAllQuestions(){
     hide(addForm);
     hide(updateForm);
@@ -57,7 +59,9 @@ function displayAllQuestions(){
             questionContainer.appendChild(editMaterial);
             quizContainer.appendChild(questionContainer);
         });
-        show(document.querySelector(".btnBack"));
+    });
+    answerAll.forEach(answer => {
+        answer.value = "";
     });
 }
 function hide(element){
@@ -68,6 +72,8 @@ function show(element){
     element.style.display = "block";
 }
 
+// Show form add question
+
 function showForm(){
     hide(editHeader);
     hide(quizContainer);
@@ -75,7 +81,7 @@ function showForm(){
     show(addForm);
     hide(document.querySelector(".btnBack"));
 }
-
+// Create questions for the users to play
 function createQuestion(e){
     e.preventDefault();
     let URL = "http://localhost:3000/questions";
@@ -93,10 +99,10 @@ function createQuestion(e){
         }
         console.log(object);
         choices.push(object);
-        answer.value = "";
+        // answer.value = "";
         radio.checked = false;
     });
-    show(document.querySelector(".btnBack"));
+    hide(document.querySelector(".btnBack"));
     if(questionText == ""){
         Swal.fire({
             icon: 'error',
@@ -121,6 +127,7 @@ function createQuestion(e){
             title: 'Oops...',
             text: "Answer choices cannot be the same!!!",
         })
+        questionTitle.value=questionText;
     }else{
         axios.post(URL,{title:questionText,answers:choices})
         Swal.fire({
@@ -132,7 +139,6 @@ function createQuestion(e){
           })
         displayAllQuestions();
     }
-    questionTitle.value="";
 }
 
 function checkValidationAnswers(array){
@@ -158,6 +164,7 @@ function checkDuplicatedAnswers(array){
 }
 
 let id ;
+// Edit questions by id including delete and edit
 function editQuestions(e){
     e.preventDefault();
     hide(document.querySelector(".btnBack"));
@@ -194,17 +201,12 @@ function editQuestions(e){
             questionTitleEdit.value = question.title;
             console.log(questionTitleEdit.value);
             let answer = question.answers;
-            let array=[];
             for(let i=0; i<answerAllEdit.length;i++){
-                let object = {};
                 answerAllEdit[i].value = answer[i].value;
-                object.value = answerAllEdit[i].value;
                 let radio = answerAllEdit[i].previousElementSibling.firstElementChild.firstElementChild;
                 if(answer[i].status){
                     radio.checked=true;
                 }
-                object.status = answer[i].status;
-                array.push(object);
             }
         });
     } else {
@@ -212,6 +214,8 @@ function editQuestions(e){
     }
 
 }
+
+// update questions base on the new users input
 function update(e){
     let query = "http://localhost:3000/questions/";
     questionTitle = questionTitleEdit.value;
@@ -226,23 +230,19 @@ function update(e){
         }
         console.log(object);
         choices.push(object);
-        answer.value = "";
         radio.checked = false;
     });
     if(questionTitle == ""){
         alert("Question cannot be empty!!!")
     }else if(!checkValidationAnswers(choices)){
         alert("Answer choices cannot be blank!!!")
-    }else if(selected!=1){
-        alert("You need to choose the correct answer!!")
     }else if(!checkDuplicatedAnswers(choices)){
         alert("Answer choices cannot be the same!!!")
     }else{
-    axios.put(query+id,{title:questionTitle,answers:choices}).then((response)=>{
-        console.log("Update Success");
-    });
-    displayAllQuestions();
-    questionTitleEdit.value="";
+        axios.put(query+id,{title:questionTitle,answers:choices}).then((response)=>{
+            console.log("Update Success");
+            displayAllQuestions();
+        });
     }
 }
 
