@@ -1,4 +1,3 @@
-// require("dotenv").config();
 function hide(element){
     element.style.display="none";
 }
@@ -77,18 +76,6 @@ function registerAccount(e){
                 emailNameCheck.textContent = null;
             }
         })
-        // console.log(checkEmail)
-
-
-        // }else{
-        //     let error = document.createElement("span");
-        //     error.textContent="Password need to be between 8 and 15 characters long!!";
-        //     error.className = "text-danger error";
-        //     log.appendChild(error);
-        //     registerName.value = "";
-        //     registerPassword.value = "";
-        //     registerEmail.value ="";
-        // }
     }else{
         if(!checkPassword(userPassword)){
             passwordNameCheck.textContent = "Password should be between 8 and 15 characters!!"
@@ -105,7 +92,6 @@ function registerAccount(e){
         }else{
             emailNameCheck.textContent = null;
         }
-    //     alert("You must fill all requirement")
     }
 }
 

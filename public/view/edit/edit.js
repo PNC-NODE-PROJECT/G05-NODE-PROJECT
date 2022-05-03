@@ -59,9 +59,12 @@ function displayAllQuestions(){
             questionContainer.appendChild(editMaterial);
             quizContainer.appendChild(questionContainer);
         });
-    });
-    answerAll.forEach(answer => {
-        answer.value = "";
+        console.log(questions.length);
+        if (questions.length > 0) {
+            show(document.querySelector(".btnBack"));
+        } else {
+            hide(document.querySelector(".btnBack"));
+        }
     });
 }
 function hide(element){
@@ -92,57 +95,51 @@ function createQuestion(e){
         let object = {};
         object.value = answer.value;
         let radio = answer.previousElementSibling.firstElementChild.firstElementChild;
-        console.log(radio);
         if(radio.checked){
             object.status = true;
             selected+=1;
         }
-        console.log(object);
         choices.push(object);
-        // answer.value = "";
-        radio.checked = false;
     });
-    hide(document.querySelector(".btnBack"));
     if(questionText == ""){
         Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: 'Question cannot be empty!!!',
+            title: 'Question cannot be empty!!!',
         })
     }else if(!checkValidationAnswers(choices)){
         Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: 'Answer choices cannot be blank!!!',
+            title: 'Answer choices cannot be blank!!!',
         })
     }else if(selected!=1){
         Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: 'You need to choose the correct answer!!',
+            title: 'You need to choose the correct answer!!',
         })
     }else if(!checkDuplicatedAnswers(choices)){
         Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: "Answer choices cannot be the same!!!",
+            title: "Answer choices cannot be the same!!!",
         })
-        questionTitle.value=questionText;
-    }else{
+    } else{
         axios.post(URL,{title:questionText,answers:choices})
         Swal.fire({
             position: 'center',
             icon: 'success',
             title: 'Question created successfully',
-            showConfirmButton: false,
-            timer: 1500
+            timer: 800
           })
+          questionTitle.value = "";
+        for(let i=0; i<answerAll.length;i++){
+            answerAll[i].value = "";
+            let radio = answerAll[i].previousElementSibling.firstElementChild.firstElementChild;
+            radio.checked = false;
+        };
         displayAllQuestions();
     }
 }
 
 function checkValidationAnswers(array){
-    console.log(array);
     let blank = true;
     array.forEach(element => {
         if(element.value == ""){
@@ -170,8 +167,6 @@ function editQuestions(e){
     hide(document.querySelector(".btnBack"));
     let query = "http://localhost:3000/questions/"
     id = e.target.parentNode.parentNode.id;
-    console.log(id);
-    console.log(e.target.id)
     if (e.target.id === "delete") {
         Swal.fire({
             title: 'Are you sure want to delete?',
@@ -186,9 +181,6 @@ function editQuestions(e){
                     console.log("delete success");
                     displayAllQuestions();
                 });
-                Swal.fire(
-                    'Deleted!',
-                    )
             }
             show(document.querySelector(".btnBack"));
         });
@@ -199,7 +191,6 @@ function editQuestions(e){
         axios.get(query+id).then((response)=>{
             let question = response.data[0];
             questionTitleEdit.value = question.title;
-            console.log(questionTitleEdit.value);
             let answer = question.answers;
             for(let i=0; i<answerAllEdit.length;i++){
                 answerAllEdit[i].value = answer[i].value;
@@ -217,6 +208,7 @@ function editQuestions(e){
 
 // update questions base on the new users input
 function update(e){
+    e.preventDefault();
     let query = "http://localhost:3000/questions/";
     questionTitle = questionTitleEdit.value;
     let choices = [];
@@ -224,25 +216,38 @@ function update(e){
         let object = {};
         object.value = answer.value;
         let radio = answer.previousElementSibling.firstElementChild.firstElementChild;
-        console.log(radio);
         if(radio.checked){
             object.status = true;
         }
-        console.log(object);
         choices.push(object);
-        radio.checked = false;
     });
     if(questionTitle == ""){
-        alert("Question cannot be empty!!!")
+        Swal.fire({
+            icon: 'error',
+            title: 'Question cannot be empty!!!',
+        })
     }else if(!checkValidationAnswers(choices)){
-        alert("Answer choices cannot be blank!!!")
+        Swal.fire({
+            icon: 'error',
+            title: 'Answer choices cannot be blank!!!',
+        })
     }else if(!checkDuplicatedAnswers(choices)){
-        alert("Answer choices cannot be the same!!!")
+        Swal.fire({
+            icon: 'error',
+            title: "Answer choices cannot be the same!!!",
+        })    
     }else{
         axios.put(query+id,{title:questionTitle,answers:choices}).then((response)=>{
             console.log("Update Success");
-            displayAllQuestions();
         });
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Question Updated successfully',
+            showConfirmButton: false,
+            timer: 800
+        })
+        displayAllQuestions();
     }
 }
 
