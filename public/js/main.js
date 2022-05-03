@@ -1,4 +1,3 @@
-// require("dotenv").config();
 function hide(element){
     element.style.display="none";
 }
@@ -45,8 +44,6 @@ function registerAccount(e){
         axios.post(query,{username:userName, password:userPassword,email:userEmail}).then((response)=>{
             console.log(response);
             if(response.data){
-                // show(loginPage);
-                // sessionStorage.setItem("userId",response.data._id);
                 location.href = "../index.html";
                 console.log("register success");
             }else{

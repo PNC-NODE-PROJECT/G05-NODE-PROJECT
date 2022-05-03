@@ -123,7 +123,6 @@ function createQuestion(e){
             position: 'center',
             icon: 'success',
             title: 'Question created successfully',
-            showConfirmButton: false,
             timer: 800
           })
           questionTitle.value = "";
@@ -177,9 +176,6 @@ function editQuestions(e){
                     console.log("delete success");
                     displayAllQuestions();
                 });
-                Swal.fire(
-                    'Deleted!',
-                    )
             }
             show(document.querySelector(".btnBack"));
         });
