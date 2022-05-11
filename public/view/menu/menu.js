@@ -6,7 +6,7 @@ if(!sessionStorage.userId){
 
 function playQuiz(e) {
     e.preventDefault();
-    let URL = "http://localhost:3000/questions";
+    let URL = "/questions";
     axios.get(URL).then((response)=>{
         let questions = response.data;
         console.log(questions.length);

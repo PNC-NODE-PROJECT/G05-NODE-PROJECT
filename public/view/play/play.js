@@ -3,8 +3,8 @@ if(!sessionStorage.userId){
     location.href = "../../index.html"
 }
 
-const URL = "http://localhost:3000/questions";
-const usersURL = "http://localhost:3000/login";
+const URL = "/questions";
+const usersURL = "/login";
 
 function hide(element){
     element.style.display = "none";

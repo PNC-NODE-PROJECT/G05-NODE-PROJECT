@@ -12,7 +12,7 @@ function displayAllQuestions(){
     while(quizContainer.firstChild){    
         quizContainer.removeChild(quizContainer.lastChild);
     }
-    let URL = "http://localhost:3000/questions";
+    let URL = "/questions";
     axios.get(URL).then((response)=>{
         let questions = response.data;
         questions.forEach(question => {
@@ -87,7 +87,7 @@ function showForm(){
 // Create questions for the users to play
 function createQuestion(e){
     e.preventDefault();
-    let URL = "http://localhost:3000/questions";
+    let URL = "/questions";
     let questionText = questionTitle.value;
     let choices = [];
     let selected = 0;
@@ -127,6 +127,7 @@ function createQuestion(e){
             position: 'center',
             icon: 'success',
             title: 'Question created successfully',
+            showConfirmButton: false,
             timer: 800
           })
           questionTitle.value = "";

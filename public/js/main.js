@@ -11,7 +11,7 @@ function loginToPlay(e){
     if(document.querySelector(".error")){
         document.querySelector(".error").remove();
     }
-    let query = "http://localhost:3000/user/login";
+    let query = "/user/login";
     axios.post(query,{username:user, password:userPassword}).then((response)=>{
         console.log(response);
         if(response.data){
@@ -40,7 +40,7 @@ function registerAccount(e){
         document.querySelector(".error").remove();
     }
     if (checkUsername(userName) && checkPassword(userPassword) && checkEmail(userEmail)){
-        let query = "http://localhost:3000/user";
+        let query = "/user";
         axios.get(query).then((response)=>{
             let checkEmail = false;
             let allData = response.data;
@@ -54,7 +54,7 @@ function registerAccount(e){
             }
             console.log(checkEmail);
             if(!checkEmail){
-                let query = "http://localhost:3000/user/register";
+                let query = "/user/register";
                 axios.post(query,{username:userName, password:userPassword,email:userEmail})
                 .then((response)=>{
                     console.log(response);
