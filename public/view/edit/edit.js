@@ -166,7 +166,7 @@ let id ;
 function editQuestions(e){
     e.preventDefault();
     hide(document.querySelector(".btnBack"));
-    let query = "http://localhost:3000/questions/"
+    let query = "/questions/"
     id = e.target.parentNode.parentNode.id;
     if (e.target.id === "delete") {
         Swal.fire({
@@ -210,7 +210,7 @@ function editQuestions(e){
 // update questions base on the new users input
 function update(e){
     e.preventDefault();
-    let query = "http://localhost:3000/questions/";
+    let query = "/questions/";
     questionTitle = questionTitleEdit.value;
     let choices = [];
     answerAllEdit.forEach(answer=> {
